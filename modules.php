@@ -24,13 +24,16 @@ ksort($files);
 $core_installed = array();
 
 foreach ($files as $info) {
-  $filename = $info->filename;
-  $name = $info->name;
-  $status = $info->status;
-
-  $contrib = strpos($filename, "sites/all/modules/") === 0;
-  $core_installed[] = $name." (".drupal_get_installed_schema_version($name).")";
+  $module = new stdClass();
+  $module->name = $info->name;
+  $module->version = "".drupal_get_installed_schema_version($module->name);
+  $core_installed[] = $module;
+  //echo $core_installed;
 }
 
-print "Installed Core Modules: " . join(", ", $core_installed) . "\n\n";
+//print "Installed Core Modules: " . join(", ", $core_installed) . "\n\n";
+
+$myJSON = json_encode($core_installed);
+
+echo $myJSON;
 ?>
